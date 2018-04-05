@@ -20,7 +20,7 @@ public class Tabou {
 			ArrayList<Etat> LEtatVoisin = GenerationVoisin(bestEtat);
 			bestCandidat = LEtatVoisin.get(0);
 			for(Etat e: LEtatVoisin){
-				if(!lTabu.contains(e) && (e.fontionObjectif()> bestCandidat.fontionObjectif())){
+				if(!lTabu.contains(e) && (e.fontionObjectif() > bestCandidat.fontionObjectif())){
 					bestCandidat = e;
 				}
 			}
@@ -51,7 +51,6 @@ public class Tabou {
 						lRetour.add(newEtat);
 					}
 				}
-				
 			}
 			
 		}
@@ -61,11 +60,8 @@ public class Tabou {
 
 	private boolean ConditionDArret(int nbIte) {
 		if(nbIte>100){
-			System.out.println("true");
 			return true;
 		}
-
-		System.out.println("false");
 		return false;
 	}
 
@@ -94,8 +90,8 @@ public class Tabou {
 	
 	public static void main(String[] args) {
 		ArrayList<Tache> taches = new ArrayList<>();
-		for(int i=0; i<20; i++){
-			taches.add(new Tache(0,(int)(Math.random() * 10)));
+		for(int i=0; i<10; i++){
+			taches.add(new Tache(0,(int)(Math.random() * 10)+1));
 		}
 		Tabou r = new Tabou(taches, 2, 100);
 		System.out.println(r);
