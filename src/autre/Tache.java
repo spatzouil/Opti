@@ -14,7 +14,7 @@ public class Tache {
 
 	public Tache(Tache t) {
 		this.numTache = t.getNumTache();
-		this.p = getP();
+		this.p = t.getP();
 	}
 
 

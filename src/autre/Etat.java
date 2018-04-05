@@ -33,7 +33,7 @@ public class Etat {
 			}
 			tempsMax = max (tempsMax, tempsProc);
 		}
-		return tempsMax;
+		return -tempsMax;
 	}
 	
 	public int max(int a, int b){
@@ -60,6 +60,52 @@ public class Etat {
 		Proc2.addTache(t);
 	}
 	
+	public Etat genererVoisinRecuit(){
+		Etat etatRes = new Etat(this);
+		int indexProc1 = this.alea(0, this.getNbProc());
+		int indexProc2 = this.alea(0, this.getNbProc());
+		
+		//Permet d'eviter que indexProc1 = indexProc2
+		while(indexProc1 == indexProc2){
+			indexProc2 = this.alea(0, this.getNbProc());
+		}
+		
+		int indexTache = this.alea(0,this.getNbTacheProc(indexProc1));
+		etatRes.transfertTache(indexProc1, indexProc2, indexTache);
+
+		return etatRes;
+	}
+	
+																															/*** GETTERS ***/
+	
+	
+	public ArrayList<Proccesseur> getProccesseur() {
+		return proccesseurs;
+	}
+	
+	public int getNbProc(){
+		return this.proccesseurs.size();
+	}
+	
+	/**
+	 * Retourne le nombre de tache du processeur au rang index
+	 * @param index
+	 * @return
+	 */
+	public int getNbTacheProc(int index){
+		return this.proccesseurs.get(index).getNbTache();
+	}
+	
+	/**
+	 * retourne un entier aleatoire entre min et max (max non compris)
+	 * @param min
+	 * @param max
+	 * @return
+	 */
+	public int alea(int min, int max){
+		return min + (int)(Math.random() * max);
+	}
+	
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
 		for(int i=0; i<this.proccesseurs.size(); i++){
@@ -71,9 +117,6 @@ public class Etat {
 		return sb.toString();
 	}
 
-	public ArrayList<Proccesseur> getProccesseur() {
-		return proccesseurs;
-	}
 	
 	public static void main(String[] args) {
 

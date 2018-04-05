@@ -12,7 +12,7 @@ public class Tabou {
 	
 	public Tabou (ArrayList<Tache> lTache, int nbProc, int maxTabusize){
 		int nbIte = 0;
-		Etat bestEtat = initialisation(lTache, nbProc);
+		Etat bestEtat = initialisation(lTache, nbProc-1);
 		Etat bestCandidat = bestEtat;
 		ArrayList<Etat> lTabu = new ArrayList<Etat>();
 		lTabu.add(bestCandidat);
@@ -39,6 +39,36 @@ public class Tabou {
 		meilleurEtat = bestEtat;
 	}
 	
+	/*
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 																				PD
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 */
+	
 	
 	private ArrayList<Etat> GenerationVoisin(Etat etat) {
 		ArrayList<Etat> lRetour = new ArrayList<Etat>();
@@ -47,6 +77,7 @@ public class Tabou {
 				for(int j =0; j<etat.getProccesseur().size(); j++){
 					if(h != j){
 						Etat newEtat = new Etat(etat);
+						
 						newEtat.transfertTache(h, j, i);
 						lRetour.add(newEtat);
 					}
