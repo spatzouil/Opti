@@ -23,20 +23,32 @@ public class Etat {
 		proccesseurs.add(p);
 	}	
 	
-	public int fontionObjectif(){
-		int tempsMax=0;
-		int tempsProc;
+	public float fontionObjectif(){
+		float tempsMax=0;
+		float tempsProc;
 		for(Proccesseur p: proccesseurs){
 			tempsProc = 0; 
 			for(Tache tache: p.getTaches()){
 				tempsProc += tache.getP();
 			}
-			tempsMax = max (tempsMax, tempsProc);
+			tempsMax = max(tempsMax, tempsProc);
 		}
 		return -tempsMax;
 	}
 	
-	public int max(int a, int b){
+	public float optimumParfait(){
+		float optimumParfait = 0;
+		for(Proccesseur p : proccesseurs){
+			for(Tache t: p.getTaches()){
+				optimumParfait += t.getP();
+			}
+		}
+		
+		return (optimumParfait / this.proccesseurs.size());
+		
+	}
+	
+	public float max(float a, float b){
 		return (a > b)?a:b;
 	}
 	
@@ -63,6 +75,10 @@ public class Etat {
 	public Etat genererVoisinRecuit(){
 		Etat etatRes = new Etat(this);
 		int indexProc1 = this.alea(0, this.getNbProc());
+		//Si le proccesseur n'a pas de tache en prendre un autre
+		while(this.getNbTacheProc(indexProc1) == 0){
+			indexProc1 = this.alea(0, this.getNbProc());
+		}
 		int indexProc2 = this.alea(0, this.getNbProc());
 		
 		//Permet d'eviter que indexProc1 = indexProc2

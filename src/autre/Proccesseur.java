@@ -26,6 +26,8 @@ public class Proccesseur {
 	}
 	
 	public Tache getTache(int index){
+		if(index >= this.taches.size())
+			System.out.println("ERREUR INDEX GETTACHE");
 		return this.taches.get(index);
 	}
 	

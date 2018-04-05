@@ -3,6 +3,7 @@ package algo;
 import java.util.ArrayList;
 
 import autre.Etat;
+import autre.Proccesseur;
 import autre.Tache;
 
 public class Recuit {
@@ -20,6 +21,7 @@ public class Recuit {
 		for(Tache t: taches){
 			this.etat.addTacheProc(this.alea(0,nbProc), t);
 		}
+		this.recuitSimule();
 	}
 	
 	
@@ -41,15 +43,18 @@ public class Recuit {
 		return (Math.random() >= probaSucces)?true:false;
 	}
 	
-	public void recuitSimule(){
+	public Etat recuitSimule(){
+		float eMax = this.etat.optimumParfait();
+		System.out.println("Optimum parfait: " + eMax);
+		
 		Etat etatCourant = this.etat;
 		Etat meilleurEtat = this.etat;
-		int energieEtatCourant = etatCourant.fontionObjectif();
-		int energieMeilleurEtat = meilleurEtat.fontionObjectif();
+		float energieEtatCourant = etatCourant.fontionObjectif();
+		float energieMeilleurEtat = meilleurEtat.fontionObjectif();
 		
 		do{
 			Etat etatTemp = etatCourant.genererVoisinRecuit();
-			int energieEtatTemp = etatTemp.fontionObjectif();
+			float energieEtatTemp = etatTemp.fontionObjectif();
 			
 			if(energieEtatTemp > energieEtatCourant || this.voisinAccepteAlea(this.regleMetropolis(etatTemp, etatTemp))){
 				etatCourant = etatTemp;
@@ -60,9 +65,12 @@ public class Recuit {
 				}
 			}
 			
-			this.itererTemperature();
-			
-		}while(this.temperature > 1);
+			this.itererTemperature(); //Reduit la temperature	
+		}while(this.temperature > 1 && energieEtatCourant > eMax);
+		
+//		this.etat = meilleurEtat;
+		System.out.println(meilleurEtat);
+		return meilleurEtat;
 	}
 	
 	public float regleMetropolis(Etat e1, Etat e2){
@@ -94,8 +102,30 @@ public class Recuit {
 		for(int i=0; i<10; i++){
 			taches.add(new Tache(0,(int)(Math.random() * 10)));
 		}
-		Recuit r = new Recuit(taches, 3);
+		Recuit r = new Recuit(taches, 5);
 //		System.out.println(r);
+//		System.out.println( Math.exp(-0.0003) );
 		
 	}
+	
+	
+	
+	
+	/*
+	 * 
+	 * 
+	 * 
+	 * 	public int fontionObjectif(){
+		int tempsMax=0;
+		int tempsProc;
+		for(Proccesseur p: proccesseurs){
+			tempsProc = 0; 
+			for(Tache tache: p.getTaches()){
+				tempsProc += tache.getP();
+			}
+			tempsMax = max (tempsMax, tempsProc);
+		}
+		return -tempsMax;
+	}
+	 */
 }
