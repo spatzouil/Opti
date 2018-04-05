@@ -37,6 +37,7 @@ public class Tabou {
 			}
 		}
 		meilleurEtat = bestEtat;
+		meilleurEtat.toString();
 	}
 	
 	
