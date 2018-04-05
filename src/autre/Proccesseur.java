@@ -14,4 +14,8 @@ public class Proccesseur {
 		taches.add(tache);
 	}
 
+	public ArrayList<Tache> getTache() {
+		return taches;
+	}
+
 }
