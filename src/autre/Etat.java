@@ -15,15 +15,22 @@ public class Etat {
 	}	
 	
 	public int fontionObjectif(){
-		int tempsMax;
+		int tempsMax=0;
+		int tempsProc;
 		for(Proccesseur p: proccesseurs){
+			tempsProc = 0; 
 			for(Tache tache: p.getTache()){
-				
+				tempsProc += tache.getP();
 			}
+			tempsMax = max (tempsMax, tempsProc);
 		}
-		
 		return tempsMax;
 	}
+	
+	public int max(int a, int b){
+		return (a > b)?a:b;
+	}
+
 	
 	public static void main(String[] args) {
 
