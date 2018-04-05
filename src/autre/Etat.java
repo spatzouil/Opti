@@ -12,6 +12,13 @@ public class Etat {
 			this.addProccesseur(new Proccesseur());
 	}
 	
+	public Etat(Etat e){
+		this.proccesseurs = new ArrayList<>();
+		for(Proccesseur p: e.getProccesseur()){
+			proccesseurs.add(new Proccesseur(p));
+		}
+	}
+	
 	public void addProccesseur(Proccesseur p){
 		proccesseurs.add(p);
 	}	
@@ -45,6 +52,12 @@ public class Etat {
 		Tache t = this.proccesseurs.get(indexProc1).getTache(indexTache);
 		this.proccesseurs.get(indexProc1).removeTache(indexTache);
 		this.proccesseurs.get(indexProc2).addTache(t);
+	}
+	
+	public void transfertTache(Proccesseur Proc1, Proccesseur Proc2, int indexTache){
+		Tache t = Proc1.getTache(indexTache);
+		Proc1.removeTache(indexTache);
+		Proc2.addTache(t);
 	}
 	
 	public String toString(){

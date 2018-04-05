@@ -10,6 +10,13 @@ public class Proccesseur {
 		this.taches = new ArrayList<>();
 	}
 
+	public Proccesseur(Proccesseur p) {
+		this.taches = new ArrayList<>();
+		for(Tache t: p.getTaches()){
+			taches.add(new Tache(t));
+		}
+	}
+
 	public void addTache(Tache tache) {
 		taches.add(tache);
 	}

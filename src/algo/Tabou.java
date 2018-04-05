@@ -42,42 +42,62 @@ public class Tabou {
 	
 	private ArrayList<Etat> GenerationVoisin(Etat etat) {
 		ArrayList<Etat> lRetour = new ArrayList<Etat>();
-		for(Proccesseur p: etat.getProccesseur()){
-			for(Tache t: p.getTaches()){
-				for(Proccesseur p2: etat.getProccesseur()){
-					if(p != p2){
-						Etat newEtat = etat;
-						
+		for(int h=0; h<etat.getProccesseur().size();h++){
+			for(int i=0; i<etat.getProccesseur().get(h).getTaches().size();i++){
+				for(int j =0; j<etat.getProccesseur().size(); j++){
+					if(h != j){
+						Etat newEtat = new Etat(etat);
+						newEtat.transfertTache(h, j, i);
 						lRetour.add(newEtat);
 					}
-				}				
+				}
+				
 			}
+			
 		}
 		return lRetour;
 	}
 
 
 	private boolean ConditionDArret(int nbIte) {
-		
+		if(nbIte>100){
+			System.out.println("true");
+			return true;
+		}
+
+		System.out.println("false");
 		return false;
 	}
 
 	//Creation d'un Etat0 
 	public Etat initialisation (ArrayList<Tache> LTache, int nbProc){
+		
 		Etat etatInitial = new Etat(nbProc);
 		for(int i = 0; i<nbProc; i++){
 			Proccesseur newProc = new Proccesseur();
-			for(int j=0; j<(LTache.size()/nbProc); j++){
-				newProc.addTache(LTache.get(i*LTache.size()/nbProc+j));
-			}
 			etatInitial.addProccesseur(newProc);
 		}
-		
+		for(int j=0; j<LTache.size(); j++){
+			etatInitial.getProccesseur().get(0).addTache(LTache.get(j));
+		}
 		return etatInitial;
 	}
 	
 
 	public Etat getMeilleurEtat() {
 		return meilleurEtat;
+	}
+	
+	public String toString(){
+		return meilleurEtat.toString();
+	}
+	
+	public static void main(String[] args) {
+		ArrayList<Tache> taches = new ArrayList<>();
+		for(int i=0; i<20; i++){
+			taches.add(new Tache(0,(int)(Math.random() * 10)));
+		}
+		Tabou r = new Tabou(taches, 2, 100);
+		System.out.println(r);
 	}
 }

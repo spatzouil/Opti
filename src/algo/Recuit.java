@@ -9,6 +9,7 @@ public class Recuit {
 
 	private int temps; //energie
 	private float temperature = 10000; //temperature T
+	private float bornTInf = 1; // born inferieur de temperature 
 	private float lambda = 0.99f;
 	
 	private Etat etat;
@@ -33,6 +34,7 @@ public class Recuit {
 	public void recuitSimule(){
 		Etat etatCourant = this.etat;
 		Etat meilleurEtat = this.etat;
+		
 	}
 	
 	public float regleMetropolis(Etat e){
