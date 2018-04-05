@@ -56,9 +56,11 @@ public class Etat {
 		return sb.toString();
 	}
 
+	public ArrayList<Proccesseur> getProccesseur() {
+		return proccesseurs;
+	}
 	
 	public static void main(String[] args) {
 
 	}
-
 }
