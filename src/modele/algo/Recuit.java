@@ -1,9 +1,9 @@
-package algo;
+package modele.algo;
 
 import java.util.ArrayList;
 
-import Etat.Etat;
-import Etat.Tache;
+import modele.etat.Etat;
+import modele.etat.Tache;
 
 public class Recuit {
 

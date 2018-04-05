@@ -1,22 +1,22 @@
-package algo;
+package modele.algo;
 
 import java.util.ArrayList;
 
-import Etat.Etat;
-import Etat.Proccesseur;
-import Etat.Tache;
+import modele.etat.Etat;
+import modele.etat.Proccesseur;
+import modele.etat.Tache;
 
 public class Tabou {
 	
 	private Etat meilleurEtat;
 	
-	public Tabou (ArrayList<Tache> lTache, int nbProc, int maxTabusize){
+	public Tabou (ArrayList<Tache> lTache, int nbProc, int maxTabusize, int nbIteration){
 		int nbIte = 0;
 		Etat bestEtat = new Etat().initialisationTabou(lTache, nbProc);
 		Etat bestCandidat = bestEtat;
 		ArrayList<Etat> lTabu = new ArrayList<Etat>();
 		lTabu.add(bestCandidat);
-		while(!ConditionDArret(nbIte)){
+		while(!ConditionDArret(nbIte,bestEtat.fontionObjectif(),nbProc, nbIteration)){
 			ArrayList<Etat> LEtatVoisin = bestEtat.GenerationVoisinTabou();
 			bestCandidat = LEtatVoisin.get(0);
 			for(Etat e: LEtatVoisin){
@@ -39,16 +39,13 @@ public class Tabou {
 		meilleurEtat = bestEtat;
 	}
 
-	private boolean ConditionDArret(int nbIte) {
-		if(nbIte>10){
+	private boolean ConditionDArret(int nbIte, int nb, int nbProc, int nbIteration) {
+		if((nb > -nbProc) || nbIte>nbIteration){
 			return true;
 		}
 		return false;
 	}
-
 	
-	
-
 	public Etat getMeilleurEtat() {
 		return meilleurEtat;
 	}
@@ -60,9 +57,9 @@ public class Tabou {
 	public static void main(String[] args) {
 		ArrayList<Tache> taches = new ArrayList<>();
 		for(int i=0; i<100; i++){
-			taches.add(new Tache(0,(int)(Math.random() * 100)+1));
+			taches.add(new Tache(0,(int)(Math.random() * 1000)+1));
 		}
-		Tabou r = new Tabou(taches, 10, 100);
+		Tabou r = new Tabou(taches, 10, 100, 10);
 		System.out.println(r);
 	}
 }

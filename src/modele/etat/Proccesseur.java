@@ -1,4 +1,4 @@
-package Etat;
+package modele.etat;
 import java.util.ArrayList;
 
 
