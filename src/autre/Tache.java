@@ -12,6 +12,12 @@ public class Tache {
 	}
 
 
+	public Tache(Tache t) {
+		this.numTache = t.getNumTache();
+		this.p = getP();
+	}
+
+
 	/**
 	 * @return the numTache
 	 */

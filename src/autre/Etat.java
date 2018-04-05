@@ -12,6 +12,14 @@ public class Etat {
 			this.addProccesseur(new Proccesseur());
 	}
 	
+	public Etat(Etat e){
+		this.proccesseurs = new ArrayList<>();
+		
+		for(Proccesseur p: e.getProccesseur()){
+			proccesseurs.add(new Proccesseur(p));
+		}
+	}
+	
 	public void addProccesseur(Proccesseur p){
 		proccesseurs.add(p);
 	}	
