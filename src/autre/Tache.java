@@ -27,5 +27,8 @@ public class Tache {
 		return p;
 	}
 	
+	public String toString(){
+		return p+"";		
+	}
 
 }
