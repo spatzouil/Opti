@@ -29,6 +29,10 @@ public class Proccesseur {
 		return this.taches.get(index);
 	}
 	
+	public int getNbTache(){
+		return this.taches.size();
+	}
+	
 	public void removeTache(int index){
 		this.taches.remove(index);
 	}
