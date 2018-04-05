@@ -43,11 +43,11 @@ public class Tabou {
 	private ArrayList<Etat> GenerationVoisin(Etat etat) {
 		ArrayList<Etat> lRetour = new ArrayList<Etat>();
 		for(Proccesseur p: etat.getProccesseur()){
-			for(Tache t: p.getTaches()){
+			for(int i=0; i<p.getTaches().size();i++){
 				for(Proccesseur p2: etat.getProccesseur()){
 					if(p != p2){
 						Etat newEtat = etat;
-						
+						newEtat.transfertTache(p, p2, i);
 						lRetour.add(newEtat);
 					}
 				}				
@@ -58,8 +58,10 @@ public class Tabou {
 
 
 	private boolean ConditionDArret(int nbIte) {
-		
-		return false;
+		if(nbIte>100){
+			return false;
+		}
+		return true;
 	}
 
 	//Creation d'un Etat0 

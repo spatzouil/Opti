@@ -47,6 +47,12 @@ public class Etat {
 		this.proccesseurs.get(indexProc2).addTache(t);
 	}
 	
+	public void transfertTache(Proccesseur Proc1, Proccesseur Proc2, int indexTache){
+		Tache t = Proc1.getTache(indexTache);
+		Proc1.removeTache(indexTache);
+		Proc2.addTache(t);
+	}
+	
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
 		for(int i=0; i<this.proccesseurs.size(); i++){
