@@ -32,8 +32,10 @@ public class Proccesseur {
 		for(Tache t: taches){
 			sb.append(t.toString() + ", ");
 			dureeTotal += t.getP();
-		}	
-		sb.append("duree total: " + dureeTotal);
+		}
+		sb.append("\n");
+		sb.append("duree total: " + dureeTotal + "\n");
+		sb.append("\n");
 		return sb.toString();
 	}
 

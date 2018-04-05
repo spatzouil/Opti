@@ -30,11 +30,21 @@ public class Recuit {
 		return (int)(Math.random() * max);
 	}
 	
+	public String toString(){
+		StringBuilder sb = new StringBuilder();
+		sb.append("T = "+this.temperature + "\n");
+		sb.append(this.etat.toString());
+		return sb.toString();
+	}
+	
 	
 	public static void main(String[] args) {
 		ArrayList<Tache> taches = new ArrayList<>();
-//		for(int i=0; i<)
+		for(int i=0; i<20; i++){
+			taches.add(new Tache(0,(int)(Math.random() * 10)));
+		}
 		Recuit r = new Recuit(taches, 10);
+		System.out.println(r);
 	}
 
 }

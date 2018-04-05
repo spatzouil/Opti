@@ -50,10 +50,9 @@ public class Etat {
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
 		for(int i=0; i<this.proccesseurs.size(); i++){
-			sb.append("Proc"+i+":");
+			sb.append("Proc"+i+":\n");
 			sb.append(this.proccesseurs.get(i).toString());
-		}	
-		
+		}		
 		return sb.toString();
 	}
 
