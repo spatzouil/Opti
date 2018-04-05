@@ -30,6 +30,27 @@ public class Recuit {
 		return (int)(Math.random() * max);
 	}
 	
+	public void recuitSimule(){
+		Etat etatCourant = this.etat;
+		Etat meilleurEtat = this.etat;
+	}
+	
+	public float regleMetropolis(Etat e){
+		float deltatE = this.deltatEnergie(e);
+		float res = (float) Math.exp((-deltatE) / this.temperature);
+		return res;
+	}
+	
+	/**
+	 * Retourne le deltatEnergie entre deux etat, negatif si le nouvelle etat est meilleur
+	 * @param e
+	 * @return
+	 */
+	public float deltatEnergie(Etat e){
+		return this.etat.fontionObjectif() - e.fontionObjectif();
+	}
+	
+	
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
 		sb.append("T = "+this.temperature + "\n");
@@ -44,7 +65,7 @@ public class Recuit {
 			taches.add(new Tache(0,(int)(Math.random() * 10)));
 		}
 		Recuit r = new Recuit(taches, 10);
-		System.out.println(r);
+//		System.out.println(r);
+		
 	}
-
 }

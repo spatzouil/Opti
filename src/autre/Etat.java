@@ -50,9 +50,11 @@ public class Etat {
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
 		for(int i=0; i<this.proccesseurs.size(); i++){
-			sb.append("Proc"+i+":\n");
+			sb.append("Proccesseur n°"+(i+1)+":\n");
 			sb.append(this.proccesseurs.get(i).toString());
-		}		
+		}
+		sb.append("\n");
+		sb.append("Temps max : " + this.fontionObjectif() + "\n");
 		return sb.toString();
 	}
 
