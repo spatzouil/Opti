@@ -1,10 +1,14 @@
-package autre;
+package Etat;
 import java.util.ArrayList;
 
 
 public class Etat {
 
 	ArrayList<Proccesseur> proccesseurs;
+	
+	public Etat(){
+		this.proccesseurs = new ArrayList<Proccesseur>();
+	}
 	
 	public Etat(int nbProc){
 		this.proccesseurs = new ArrayList<Proccesseur>();
@@ -24,6 +28,29 @@ public class Etat {
 	}	
 	
 	public float fontionObjectif(){
+		float tempsProc;
+		float tempstt=0;
+		float score=0;
+		float tempsMoy;
+		for(Proccesseur p: proccesseurs){
+			for(Tache tache: p.getTaches()){
+				tempstt += tache.getP();
+			}
+		}
+		tempsMoy = tempstt/proccesseurs.size();
+		
+		for(Proccesseur p: proccesseurs){
+			tempsProc = 0; 
+			for(Tache tache: p.getTaches()){
+				tempsProc += tache.getP();
+			}
+
+			score += Math.abs(tempsMoy-tempsProc);
+		}
+		return -score;
+	}
+	
+	public float fontionObjectifRecuit(){
 		float tempsMax=0;
 		float tempsProc;
 		for(Proccesseur p: proccesseurs){
@@ -31,7 +58,7 @@ public class Etat {
 			for(Tache tache: p.getTaches()){
 				tempsProc += tache.getP();
 			}
-			tempsMax = max(tempsMax, tempsProc);
+			tempsMax = max (tempsMax, tempsProc);
 		}
 		return -tempsMax;
 	}
@@ -44,12 +71,15 @@ public class Etat {
 			}
 		}
 		
-		return (optimumParfait / this.proccesseurs.size());
-		
+		return -(optimumParfait / this.proccesseurs.size());	
 	}
 	
 	public float max(float a, float b){
 		return (a > b)?a:b;
+	}
+	
+	public int min(int a, int b){
+		return (a < b)?a:b;
 	}
 	
 	public void addTacheProc(int index, Tache tache){
@@ -92,7 +122,7 @@ public class Etat {
 		return etatRes;
 	}
 	
-																															/*** GETTERS ***/
+	/*** GETTERS ***/
 	
 	
 	public ArrayList<Proccesseur> getProccesseur() {
@@ -125,15 +155,39 @@ public class Etat {
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
 		for(int i=0; i<this.proccesseurs.size(); i++){
-			sb.append("Proccesseur n°"+(i+1)+":\n");
-			sb.append(this.proccesseurs.get(i).toString());
-		}
-		sb.append("\n");
-		sb.append("Temps max : " + this.fontionObjectif() + "\n");
+			sb.append("Proccesseur n°"+(i+1)+": ");
+			sb.append(this.proccesseurs.get(i).toString()+"\n\n");
+		}		
 		return sb.toString();
 	}
 
 	
+	public ArrayList<Etat> GenerationVoisinTabou() {
+		ArrayList<Etat> lRetour = new ArrayList<Etat>();
+		for(int h = 0 ; h<this.getProccesseur().size();h++){
+			for(int i = 0; i<this.getProccesseur().get(h).getTaches().size();i++){
+				for(int j = 0; j<this.getProccesseur().size(); j++){
+					if(h != j){
+						Etat newEtat = new Etat(this);
+						newEtat.transfertTache(h, j, i);
+						lRetour.add(newEtat);
+					}
+				}
+			}
+			
+		}
+		return lRetour;
+	}
+	
+	//Creation d'un Etat0 
+	public Etat initialisationTabou (ArrayList<Tache> LTache, int nbProc){
+		Etat etatInitial = new Etat(nbProc);
+		for(int j=0; j<LTache.size(); j++){
+			etatInitial.getProccesseur().get(0).addTache(LTache.get(j));
+		}	
+		return etatInitial;
+	}
+		
 	public static void main(String[] args) {
 
 	}

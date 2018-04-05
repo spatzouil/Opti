@@ -2,15 +2,13 @@ package algo;
 
 import java.util.ArrayList;
 
-import autre.Etat;
-import autre.Proccesseur;
-import autre.Tache;
+import Etat.Etat;
+import Etat.Tache;
 
 public class Recuit {
 
-	private int temps; //energie
-	private float temperature = 10000; //temperature T
-	private float bornTInf = 1; // born inferieur de temperature 
+	private float temperature = 100000; //temperature T
+	private float borneInfTemperature = 0.0001f; // born inferieur de temperature 
 	private float lambda = 0.99f;
 	
 	private Etat etat;
@@ -46,17 +44,23 @@ public class Recuit {
 	public Etat recuitSimule(){
 		float eMax = this.etat.optimumParfait();
 		System.out.println("Optimum parfait: " + eMax);
+		System.out.println();
+		System.out.println(this.etat);
+		System.out.println();
 		
 		Etat etatCourant = this.etat;
 		Etat meilleurEtat = this.etat;
-		float energieEtatCourant = etatCourant.fontionObjectif();
-		float energieMeilleurEtat = meilleurEtat.fontionObjectif();
+		float energieEtatCourant = etatCourant.fontionObjectifRecuit();
+		float energieMeilleurEtat = meilleurEtat.fontionObjectifRecuit();
+		
+		int nbIteration = 0;
 		
 		do{
 			Etat etatTemp = etatCourant.genererVoisinRecuit();
-			float energieEtatTemp = etatTemp.fontionObjectif();
-			
-			if(energieEtatTemp > energieEtatCourant || this.voisinAccepteAlea(this.regleMetropolis(etatTemp, etatTemp))){
+			float energieEtatTemp = etatTemp.fontionObjectifRecuit();
+			System.out.println("energieEtatCourant: " + energieEtatCourant + " energieEtatTemp: " + energieEtatTemp + " iteration: " + nbIteration);
+
+			if(energieEtatTemp >= energieEtatCourant || this.voisinAccepteAlea(this.regleMetropolis(etatTemp, etatTemp))){
 				etatCourant = etatTemp;
 				energieEtatCourant = energieEtatTemp;
 				if(energieEtatCourant > energieMeilleurEtat){
@@ -65,11 +69,13 @@ public class Recuit {
 				}
 			}
 			
-			this.itererTemperature(); //Reduit la temperature	
-		}while(this.temperature > 1 && energieEtatCourant > eMax);
+			this.itererTemperature(); //Reduit la temperature
+			nbIteration++;
+		}while(this.temperature > this.borneInfTemperature && energieEtatCourant < eMax);
 		
-//		this.etat = meilleurEtat;
 		System.out.println(meilleurEtat);
+
+//		this.etat = meilleurEtat;
 		return meilleurEtat;
 	}
 	
@@ -99,10 +105,13 @@ public class Recuit {
 	
 	public static void main(String[] args) {
 		ArrayList<Tache> taches = new ArrayList<>();
-		for(int i=0; i<10; i++){
-			taches.add(new Tache(0,(int)(Math.random() * 10)));
+		int nbTaches = 100000;
+		for(int i=0; i<nbTaches; i++){
+			int valMax = 100;
+			taches.add(new Tache(0,(int)(Math.random() * valMax)));
 		}
 		Recuit r = new Recuit(taches, 5);
+		
 //		System.out.println(r);
 //		System.out.println( Math.exp(-0.0003) );
 		
