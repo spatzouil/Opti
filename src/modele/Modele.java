@@ -102,10 +102,64 @@ public class Modele {
  
 		return true;
 	}
+	private boolean estUnFloat(String s) {
+		try {
+			Float.parseFloat(s);
+		} catch (NumberFormatException e){
+			return false;
+		}
+ 
+		return true;
+	}
 	
 	private void recuit() {
+		String s = "-1";
+		while(!estUnFloat(s) || Float.parseFloat(s)<0){
+			System.out.println("Quelle temperature voulez-vous?");
+			 try{
+			        BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
+			        s = bufferRead.readLine();
+			        if(s==""){
+			        	s="0";
+			        }
+			    }
+			    catch(IOException e)
+			    {
+			        e.printStackTrace();
+			    }
+		}
+		float Temperature = Float.parseFloat(s);
+		 s = "-1";
+			while(!estUnFloat(s) || Float.parseFloat(s)<0){
+				System.out.println("Quelle borne inférieur voulez-vous?");
+				 try{
+				        BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
+				        s = bufferRead.readLine();
+				        if(s==""){
+				        	s="0";
+				        }
+				    }
+				    catch(IOException e)
+				    {
+				        e.printStackTrace();
+				    }
+			}
+			float borneInf = Float.parseFloat(s);
+			
 		
+			/*System.out.println();
+			System.out.println("================Resultat====================");
+			System.out.println("Nombre D'iteration: "+t.getNbIteration());
+			System.out.println();
+			System.out.println("Variation de la valeur de fonction objection");
+			System.out.println(t.getlValeur());
+			System.out.println();
+			System.out.println("Repartion sur les différents proccesseurs");
+			System.out.println(t.getMeilleurEtat());*/
 	}
+
+	
+
 
 	private void tabou() {
 		String s = "-1";
@@ -143,6 +197,12 @@ public class Modele {
 		Tabou t = new Tabou(generationTache(nbTache),nbProc,TailleTabTabou,maxIte);		
 		System.out.println();
 		System.out.println("================Resultat====================");
+		System.out.println("Nombre D'iteration: "+t.getNbIteration());
+		System.out.println();
+		System.out.println("Variation de la valeur de fonction objection");
+		System.out.println(t.getlValeur());
+		System.out.println();
+		System.out.println("Repartion sur les différents proccesseurs");
 		System.out.println(t.getMeilleurEtat());
 	}
 

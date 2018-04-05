@@ -7,10 +7,10 @@ import modele.etat.Tache;
 
 public class Recuit {
 
-	private int temps; //energie
 	private float temperature = 10000; //temperature T
-	private float bornTInf = 1; // born inferieur de temperature 
+	private float borneInfTemperature = 1f; // born inferieur de temperature 
 	private float lambda = 0.99f;
+	private int nbIteration = 0;
 	
 	private Etat etat;
 	
@@ -20,9 +20,13 @@ public class Recuit {
 		for(Tache t: taches){
 			this.etat.addTacheProc(this.alea(0,nbProc), t);
 		}
+		this.recuitSimule();
 	}
 	
 	
+	/**
+	 * Reduit la temperature avec lambda
+	 */
 	public void itererTemperature(){
 		this.temperature *= this.lambda;
 	}
@@ -37,21 +41,33 @@ public class Recuit {
 		return min + (int)(Math.random() * max);
 	}
 	
+	/**
+	 * Retourn vrai si le random 
+	 * @param probaSucces
+	 * @return
+	 */
 	public boolean voisinAccepteAlea(float probaSucces){
-		return (Math.random() >= probaSucces)?true:false;
+		return (Math.random() <= probaSucces)?true:false;
 	}
 	
-	public void recuitSimule(){
+	public Etat recuitSimule(){
+		float eMax = this.etat.optimumParfait();
+		System.out.println("Optimum parfait: " + eMax);
+		System.out.println();
+		System.out.println(this.etat);
+		System.out.println();
+		
 		Etat etatCourant = this.etat;
 		Etat meilleurEtat = this.etat;
-		int energieEtatCourant = etatCourant.fontionObjectif();
-		int energieMeilleurEtat = meilleurEtat.fontionObjectif();
+		float energieEtatCourant = etatCourant.fontionObjectifRecuit();
+		float energieMeilleurEtat = meilleurEtat.fontionObjectifRecuit();
 		
 		do{
 			Etat etatTemp = etatCourant.genererVoisinRecuit();
-			int energieEtatTemp = etatTemp.fontionObjectif();
-			
-			if(energieEtatTemp > energieEtatCourant || this.voisinAccepteAlea(this.regleMetropolis(etatTemp, etatTemp))){
+			float energieEtatTemp = etatTemp.fontionObjectifRecuit();
+			System.out.println("energieEtatCourant: " + energieEtatCourant + " energieEtatTemp: " + energieEtatTemp + " iteration: " + this.nbIteration);
+
+			if(energieEtatTemp >= energieEtatCourant || this.voisinAccepteAlea(this.regleMetropolis(etatTemp, etatTemp))){
 				etatCourant = etatTemp;
 				energieEtatCourant = energieEtatTemp;
 				if(energieEtatCourant > energieMeilleurEtat){
@@ -60,9 +76,14 @@ public class Recuit {
 				}
 			}
 			
-			this.itererTemperature();
-			
-		}while(this.temperature > 1);
+			this.itererTemperature(); //Reduit la temperature
+			this.nbIteration++;
+		}while(this.temperature > this.borneInfTemperature && energieEtatCourant < eMax);
+		
+		System.out.println(meilleurEtat);
+
+//		this.etat = meilleurEtat;
+		return meilleurEtat;
 	}
 	
 	public float regleMetropolis(Etat e1, Etat e2){
@@ -91,11 +112,11 @@ public class Recuit {
 	
 	public static void main(String[] args) {
 		ArrayList<Tache> taches = new ArrayList<>();
-		for(int i=0; i<10; i++){
-			taches.add(new Tache(0,(int)(Math.random() * 10)));
+		int nbTaches = 100;
+		for(int i=0; i<nbTaches; i++){
+			int valMax = 100;
+			taches.add(new Tache(0,(int)(Math.random() * valMax)));
 		}
-		Recuit r = new Recuit(taches, 3);
-//		System.out.println(r);
-		
+		Recuit r = new Recuit(taches, 5);		
 	}
 }

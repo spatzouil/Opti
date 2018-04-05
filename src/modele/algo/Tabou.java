@@ -9,6 +9,8 @@ import modele.etat.Tache;
 public class Tabou {
 	
 	private Etat meilleurEtat;
+	private int nbIteration = 0;	
+	private ArrayList<Integer> lValeur = new ArrayList<Integer>();
 	
 	public Tabou (ArrayList<Tache> lTache, int nbProc, int maxTabusize, int nbIteration){
 		int nbIte = 0;
@@ -16,7 +18,8 @@ public class Tabou {
 		Etat bestCandidat = bestEtat;
 		ArrayList<Etat> lTabu = new ArrayList<Etat>();
 		lTabu.add(bestCandidat);
-		while(!ConditionDArret(nbIte,bestEtat.fontionObjectif(),nbProc, nbIteration)){
+		lValeur.add((int) bestEtat.fontionObjectif());
+		while(!ConditionDArret(nbIte,(int)bestEtat.fontionObjectif(),nbProc, nbIteration)){
 			ArrayList<Etat> LEtatVoisin = bestEtat.GenerationVoisinTabou();
 			bestCandidat = LEtatVoisin.get(0);
 			for(Etat e: LEtatVoisin){
@@ -26,6 +29,7 @@ public class Tabou {
 			}
 			if(bestCandidat.fontionObjectif()>bestEtat.fontionObjectif()){
 				bestEtat = bestCandidat;
+				lValeur.add((int) bestEtat.fontionObjectif());
 				nbIte = 0;
 			}
 			else{
@@ -35,6 +39,7 @@ public class Tabou {
 			if(lTabu.size()> maxTabusize){
 				lTabu.remove(0);
 			}
+			this.nbIteration++;
 		}
 		meilleurEtat = bestEtat;
 	}
@@ -48,6 +53,14 @@ public class Tabou {
 	
 	public Etat getMeilleurEtat() {
 		return meilleurEtat;
+	}
+	
+	public int getNbIteration() {
+		return nbIteration;
+	}
+
+	public ArrayList<Integer> getlValeur() {
+		return lValeur;
 	}
 	
 	public String toString(){

@@ -27,11 +27,11 @@ public class Etat {
 		proccesseurs.add(p);
 	}	
 	
-	public int fontionObjectif(){
-		int tempsProc;
-		int tempstt=0;
-		int score=0;
-		int tempsMoy;
+	public float fontionObjectif(){
+		float tempsProc;
+		float tempstt=0;
+		float score=0;
+		float tempsMoy;
 		for(Proccesseur p: proccesseurs){
 			for(Tache tache: p.getTaches()){
 				tempstt += tache.getP();
@@ -44,12 +44,37 @@ public class Etat {
 			for(Tache tache: p.getTaches()){
 				tempsProc += tache.getP();
 			}
+
 			score += Math.abs(tempsMoy-tempsProc);
 		}
 		return -score;
 	}
 	
-	public int max(int a, int b){
+	public float fontionObjectifRecuit(){
+		float tempsMax=0;
+		float tempsProc;
+		for(Proccesseur p: proccesseurs){
+			tempsProc = 0; 
+			for(Tache tache: p.getTaches()){
+				tempsProc += tache.getP();
+			}
+			tempsMax = max (tempsMax, tempsProc);
+		}
+		return -tempsMax;
+	}
+	
+	public float optimumParfait(){
+		float optimumParfait = 0;
+		for(Proccesseur p : proccesseurs){
+			for(Tache t: p.getTaches()){
+				optimumParfait += t.getP();
+			}
+		}
+		
+		return -(optimumParfait / this.proccesseurs.size());	
+	}
+	
+	public float max(float a, float b){
 		return (a > b)?a:b;
 	}
 	
@@ -80,6 +105,10 @@ public class Etat {
 	public Etat genererVoisinRecuit(){
 		Etat etatRes = new Etat(this);
 		int indexProc1 = this.alea(0, this.getNbProc());
+		//Si le proccesseur n'a pas de tache en prendre un autre
+		while(this.getNbTacheProc(indexProc1) == 0){
+			indexProc1 = this.alea(0, this.getNbProc());
+		}
 		int indexProc2 = this.alea(0, this.getNbProc());
 		
 		//Permet d'eviter que indexProc1 = indexProc2
@@ -126,7 +155,7 @@ public class Etat {
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
 		for(int i=0; i<this.proccesseurs.size(); i++){
-			sb.append("Proc"+(i+1)+": ");
+			sb.append("Proccesseur n°"+(i+1)+": ");
 			sb.append(this.proccesseurs.get(i).toString()+"\n\n");
 		}		
 		return sb.toString();
