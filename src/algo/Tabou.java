@@ -43,7 +43,7 @@ public class Tabou {
 	private ArrayList<Etat> GenerationVoisin(Etat etat) {
 		ArrayList<Etat> lRetour = new ArrayList<Etat>();
 		for(Proccesseur p: etat.getProccesseur()){
-			for(Tache t: p.getTache()){
+			for(Tache t: p.getTaches()){
 				for(Proccesseur p2: etat.getProccesseur()){
 					if(p != p2){
 						Etat newEtat = etat;
