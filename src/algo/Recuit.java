@@ -2,8 +2,8 @@ package algo;
 
 import java.util.ArrayList;
 
-import autre.Etat;
-import autre.Tache;
+import Etat.Etat;
+import Etat.Tache;
 
 public class Recuit {
 

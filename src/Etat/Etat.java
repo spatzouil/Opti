@@ -1,10 +1,14 @@
-package autre;
+package Etat;
 import java.util.ArrayList;
 
 
 public class Etat {
 
 	ArrayList<Proccesseur> proccesseurs;
+	
+	public Etat(){
+		this.proccesseurs = new ArrayList<Proccesseur>();
+	}
 	
 	public Etat(int nbProc){
 		this.proccesseurs = new ArrayList<Proccesseur>();
@@ -25,20 +29,33 @@ public class Etat {
 	}	
 	
 	public int fontionObjectif(){
-		int tempsMax=0;
 		int tempsProc;
+		int tempstt=0;
+		int score=0;
+		int tempsMoy;
+		for(Proccesseur p: proccesseurs){
+			for(Tache tache: p.getTaches()){
+				tempstt += tache.getP();
+			}
+		}
+		tempsMoy = tempstt/proccesseurs.size();
+		
 		for(Proccesseur p: proccesseurs){
 			tempsProc = 0; 
 			for(Tache tache: p.getTaches()){
 				tempsProc += tache.getP();
 			}
-			tempsMax = max (tempsMax, tempsProc);
+			score += Math.abs(tempsMoy-tempsProc);
 		}
-		return -tempsMax;
+		return -score;
 	}
 	
 	public int max(int a, int b){
 		return (a > b)?a:b;
+	}
+	
+	public int min(int a, int b){
+		return (a < b)?a:b;
 	}
 	
 	public void addTacheProc(int index, Tache tache){
@@ -52,7 +69,6 @@ public class Etat {
 	public void transfertTache(int indexProc1, int indexProc2, int indexTache){
 		
 		Tache t = this.proccesseurs.get(indexProc1).getTache(indexTache);
-		System.out.println(t);
 		this.proccesseurs.get(indexProc1).removeTache(indexTache);
 		this.proccesseurs.get(indexProc2).addTache(t);
 	}
@@ -66,8 +82,8 @@ public class Etat {
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
 		for(int i=0; i<this.proccesseurs.size(); i++){
-			sb.append("Proc"+i+":\n");
-			sb.append(this.proccesseurs.get(i).toString());
+			sb.append("Proc"+(i+1)+": ");
+			sb.append(this.proccesseurs.get(i).toString()+"\n\n");
 		}		
 		return sb.toString();
 	}
@@ -76,6 +92,32 @@ public class Etat {
 		return proccesseurs;
 	}
 	
+	public ArrayList<Etat> GenerationVoisinTabou() {
+		ArrayList<Etat> lRetour = new ArrayList<Etat>();
+		for(int h = 0 ; h<this.getProccesseur().size();h++){
+			for(int i = 0; i<this.getProccesseur().get(h).getTaches().size();i++){
+				for(int j = 0; j<this.getProccesseur().size(); j++){
+					if(h != j){
+						Etat newEtat = new Etat(this);
+						newEtat.transfertTache(h, j, i);
+						lRetour.add(newEtat);
+					}
+				}
+			}
+			
+		}
+		return lRetour;
+	}
+	
+	//Creation d'un Etat0 
+	public Etat initialisationTabou (ArrayList<Tache> LTache, int nbProc){
+		Etat etatInitial = new Etat(nbProc);
+		for(int j=0; j<LTache.size(); j++){
+			etatInitial.getProccesseur().get(0).addTache(LTache.get(j));
+		}	
+		return etatInitial;
+	}
+		
 	public static void main(String[] args) {
 
 	}
