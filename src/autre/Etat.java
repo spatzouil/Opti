@@ -34,7 +34,7 @@ public class Etat {
 			}
 			tempsMax = max (tempsMax, tempsProc);
 		}
-		return tempsMax;
+		return -tempsMax;
 	}
 	
 	public int max(int a, int b){
@@ -50,7 +50,9 @@ public class Etat {
 	
 	
 	public void transfertTache(int indexProc1, int indexProc2, int indexTache){
+		
 		Tache t = this.proccesseurs.get(indexProc1).getTache(indexTache);
+		System.out.println(t);
 		this.proccesseurs.get(indexProc1).removeTache(indexTache);
 		this.proccesseurs.get(indexProc2).addTache(t);
 	}
