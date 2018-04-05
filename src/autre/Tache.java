@@ -1,3 +1,4 @@
+package autre;
 
 public class Tache {
 
