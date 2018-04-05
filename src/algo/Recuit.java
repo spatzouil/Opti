@@ -7,9 +7,10 @@ import Etat.Tache;
 
 public class Recuit {
 
-	private float temperature = 100000; //temperature T
-	private float borneInfTemperature = 0.0001f; // born inferieur de temperature 
+	private float temperature = 10000; //temperature T
+	private float borneInfTemperature = 1f; // born inferieur de temperature 
 	private float lambda = 0.99f;
+	private int nbIteration = 0;
 	
 	private Etat etat;
 	
@@ -23,6 +24,9 @@ public class Recuit {
 	}
 	
 	
+	/**
+	 * Reduit la temperature avec lambda
+	 */
 	public void itererTemperature(){
 		this.temperature *= this.lambda;
 	}
@@ -37,8 +41,13 @@ public class Recuit {
 		return min + (int)(Math.random() * max);
 	}
 	
+	/**
+	 * Retourn vrai si le random 
+	 * @param probaSucces
+	 * @return
+	 */
 	public boolean voisinAccepteAlea(float probaSucces){
-		return (Math.random() >= probaSucces)?true:false;
+		return (Math.random() <= probaSucces)?true:false;
 	}
 	
 	public Etat recuitSimule(){
@@ -53,12 +62,10 @@ public class Recuit {
 		float energieEtatCourant = etatCourant.fontionObjectifRecuit();
 		float energieMeilleurEtat = meilleurEtat.fontionObjectifRecuit();
 		
-		int nbIteration = 0;
-		
 		do{
 			Etat etatTemp = etatCourant.genererVoisinRecuit();
 			float energieEtatTemp = etatTemp.fontionObjectifRecuit();
-			System.out.println("energieEtatCourant: " + energieEtatCourant + " energieEtatTemp: " + energieEtatTemp + " iteration: " + nbIteration);
+			System.out.println("energieEtatCourant: " + energieEtatCourant + " energieEtatTemp: " + energieEtatTemp + " iteration: " + this.nbIteration);
 
 			if(energieEtatTemp >= energieEtatCourant || this.voisinAccepteAlea(this.regleMetropolis(etatTemp, etatTemp))){
 				etatCourant = etatTemp;
@@ -70,7 +77,7 @@ public class Recuit {
 			}
 			
 			this.itererTemperature(); //Reduit la temperature
-			nbIteration++;
+			this.nbIteration++;
 		}while(this.temperature > this.borneInfTemperature && energieEtatCourant < eMax);
 		
 		System.out.println(meilleurEtat);
@@ -105,36 +112,11 @@ public class Recuit {
 	
 	public static void main(String[] args) {
 		ArrayList<Tache> taches = new ArrayList<>();
-		int nbTaches = 100000;
+		int nbTaches = 100;
 		for(int i=0; i<nbTaches; i++){
 			int valMax = 100;
 			taches.add(new Tache(0,(int)(Math.random() * valMax)));
 		}
-		Recuit r = new Recuit(taches, 5);
-		
-//		System.out.println(r);
-//		System.out.println( Math.exp(-0.0003) );
-		
+		Recuit r = new Recuit(taches, 5);		
 	}
-	
-	
-	
-	
-	/*
-	 * 
-	 * 
-	 * 
-	 * 	public int fontionObjectif(){
-		int tempsMax=0;
-		int tempsProc;
-		for(Proccesseur p: proccesseurs){
-			tempsProc = 0; 
-			for(Tache tache: p.getTaches()){
-				tempsProc += tache.getP();
-			}
-			tempsMax = max (tempsMax, tempsProc);
-		}
-		return -tempsMax;
-	}
-	 */
 }

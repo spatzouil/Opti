@@ -9,6 +9,7 @@ import Etat.Tache;
 public class Tabou {
 	
 	private Etat meilleurEtat;
+	private int nbIteration = 0;	
 	
 	public Tabou (ArrayList<Tache> lTache, int nbProc, int maxTabusize){
 		int nbIte = 0;
@@ -16,6 +17,7 @@ public class Tabou {
 		Etat bestCandidat = bestEtat;
 		ArrayList<Etat> lTabu = new ArrayList<Etat>();
 		lTabu.add(bestCandidat);
+		
 		while(!ConditionDArret(nbIte)){
 			ArrayList<Etat> LEtatVoisin = bestEtat.GenerationVoisinTabou();
 			bestCandidat = LEtatVoisin.get(0);
@@ -35,6 +37,7 @@ public class Tabou {
 			if(lTabu.size()> maxTabusize){
 				lTabu.remove(0);
 			}
+			this.nbIteration++;
 		}
 		meilleurEtat = bestEtat;
 	}
