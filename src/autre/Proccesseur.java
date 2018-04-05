@@ -10,4 +10,8 @@ public class Proccesseur {
 		this.taches = new ArrayList<>();
 	}
 
+	public void addTache(Tache tache) {
+		taches.add(tache);
+	}
+
 }
