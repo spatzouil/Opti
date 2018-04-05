@@ -4,9 +4,11 @@ import java.util.ArrayList;
 
 public class Etat {
 
-	ArrayList<Tache> taches;
+	ArrayList<Proccesseur> proccesseur;
 	
-	
+	public Etat(int nbProc){
+		this.proccesseur = new ArrayList<Proccesseur>();
+	}
 	
 	
 	
