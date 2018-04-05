@@ -31,9 +31,11 @@ public class Etat {
 		return (a > b)?a:b;
 	}
 
+	public ArrayList<Proccesseur> getProccesseur() {
+		return proccesseurs;
+	}
 	
 	public static void main(String[] args) {
 
 	}
-
 }
