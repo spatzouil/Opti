@@ -113,7 +113,7 @@ public class Modele {
 	private void recuit() {
 		String s = "-1";
 		while(!estUnFloat(s) || Float.parseFloat(s)<0){
-			System.out.println("Quelle temperature voulez-vous?");
+			System.out.println("Quelle temperature voulez-vous ? (minimum 10000 conseillé)");
 			 try{
 			        BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
 			        s = bufferRead.readLine();
@@ -126,10 +126,10 @@ public class Modele {
 			        e.printStackTrace();
 			    }
 		}
-		float Temperature = Float.parseFloat(s);
+		float temperature = Float.parseFloat(s);
 		 s = "-1";
 			while(!estUnFloat(s) || Float.parseFloat(s)<0){
-				System.out.println("Quelle borne inferieur voulez-vous?");
+				System.out.println("Quelle borne inferieur voulez-vous ? (maximum 1 conseillé)");
 				 try{
 				        BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
 				        s = bufferRead.readLine();
@@ -144,7 +144,7 @@ public class Modele {
 			}
 			float borneInf = Float.parseFloat(s);
 			
-			Recuit r = new Recuit(this.generationTache(nbTache), nbProc);
+			Recuit r = new Recuit(this.generationTache(nbTache), nbProc, temperature, borneInf);
 			System.out.println();
 			System.out.println("================Resultat====================");
 			System.out.println("Nombre D'iteration: "+r.getNbIteration());
