@@ -47,7 +47,7 @@ public class Proccesseur {
 		}
 		sb.append("duree total: " + dureeTotal + "\n");
 		for(Tache t: taches){
-//			sb.append(t.toString() + ", ");
+			sb.append(t.toString() + ", ");
 		}
 		return sb.toString();
 	}
