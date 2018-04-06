@@ -13,6 +13,10 @@ public class Tabou {
 	private ArrayList<Integer> lValeur = new ArrayList<Integer>();
 	
 	public Tabou (ArrayList<Tache> lTache, int nbProc, int maxTabusize, int nbIteration){
+		Algorithme(lTache, nbProc, maxTabusize, nbIteration);
+	}
+	
+	public void Algorithme (ArrayList<Tache> lTache, int nbProc, int maxTabusize, int nbIteration){
 		int nbIte = 0;
 		Etat bestEtat = new Etat().initialisationTabou(lTache, nbProc);
 		Etat bestCandidat = bestEtat;
@@ -43,7 +47,7 @@ public class Tabou {
 		}
 		meilleurEtat = bestEtat;
 	}
-
+	
 	private boolean ConditionDArret(int nbIte, int nb, int nbProc, int nbIteration) {
 		if((nb > -nbProc) || nbIte>nbIteration){
 			return true;
