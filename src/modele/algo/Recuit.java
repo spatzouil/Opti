@@ -1,5 +1,6 @@
 package modele.algo;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import modele.etat.Etat;
@@ -11,6 +12,7 @@ public class Recuit {
 	private float borneInfTemperature = 0.1f; // born inferieur de temperature 
 	private float lambda = 0.99f;
 	private int nbIteration = 0;
+	private ArrayList<Float> meilleursVal = new ArrayList<>();
 	
 	private Etat etat;
 	
@@ -65,12 +67,8 @@ public class Recuit {
 	 * Optimise un etat
 	 * @return
 	 */
-	public Etat recuitSimule(){
+	public void recuitSimule(){
 		float eMax = this.etat.optimumParfait();
-		System.out.println("Optimum parfait: " + eMax);
-		System.out.println();
-		System.out.println(this.etat);
-		System.out.println();
 		
 		Etat etatCourant = this.etat;
 		Etat meilleurEtat = this.etat;
@@ -80,7 +78,6 @@ public class Recuit {
 		do{
 			Etat etatTemp = etatCourant.genererVoisinRecuit();
 			float energieEtatTemp = etatTemp.fontionObjectifRecuit();
-			System.out.println("energieEtatCourant: " + energieEtatCourant + " energieEtatTemp: " + energieEtatTemp + "energieMeilleurEtat: " + energieMeilleurEtat + " iteration: " + this.nbIteration);
 
 			if(energieEtatTemp >= energieEtatCourant || this.voisinAccepteAlea(this.regleMetropolis(etatTemp, etatCourant))){
 				etatCourant = etatTemp;
@@ -88,6 +85,7 @@ public class Recuit {
 				if(energieEtatCourant > energieMeilleurEtat){
 					meilleurEtat = etatCourant; 
 					energieMeilleurEtat = energieEtatCourant;
+					this.meilleursVal.add(energieMeilleurEtat);
 				}
 			}
 			
@@ -95,10 +93,7 @@ public class Recuit {
 			this.nbIteration++;
 		}while(this.temperature > this.borneInfTemperature && energieEtatCourant < eMax);
 		
-		System.out.println(meilleurEtat);
-
-//		this.etat = meilleurEtat;
-		return meilleurEtat;
+		this.etat = meilleurEtat;
 	}
 	
 	public float regleMetropolis(Etat e1, Etat e2){
@@ -114,6 +109,18 @@ public class Recuit {
 	 */
 	public float deltatEnergie(Etat e1, Etat e2){
 		return Math.abs(e1.fontionObjectifRecuit() - e2.fontionObjectifRecuit());
+	}
+	
+	public int getNbIteration(){
+		return this.nbIteration;
+	}
+	
+	public ArrayList<Float> getlValeur(){
+		return this.meilleursVal;
+	}
+	
+	public Etat getEtat(){
+		return this.etat;
 	}
 	
 	

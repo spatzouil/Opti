@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import modele.algo.Recuit;
 import modele.algo.Tabou;
 import modele.etat.Tache;
 
@@ -16,15 +17,12 @@ public class Modele {
 	
 	public Modele(){
 		int algo;
-		String s="0";
-		while(s.charAt(0) != '1' && s.charAt(0) != '2'){
-			System.out.println("Bonjour quel algorithme voulez-vous utilisez ? tabou(1)/recuit(2)");
+		String s="-1";
+		while(!estUnEntier(s) || Integer.parseInt(s) <= 0 || Integer.parseInt(s) > 2){
+			System.out.println("Bonjour quel algorithme voulez-vous utilisez ? 1(tabou) / 2(recuit)");
 			 try{
 			        BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
 			        s = bufferRead.readLine();
-			        if(s==""){
-			        	s="0";
-			        }
 			    }
 			    catch(IOException e)
 			    {
@@ -131,7 +129,7 @@ public class Modele {
 		float Temperature = Float.parseFloat(s);
 		 s = "-1";
 			while(!estUnFloat(s) || Float.parseFloat(s)<0){
-				System.out.println("Quelle borne inférieur voulez-vous?");
+				System.out.println("Quelle borne inferieur voulez-vous?");
 				 try{
 				        BufferedReader bufferRead = new BufferedReader(new InputStreamReader(System.in));
 				        s = bufferRead.readLine();
@@ -146,16 +144,16 @@ public class Modele {
 			}
 			float borneInf = Float.parseFloat(s);
 			
-		
-			/*System.out.println();
+			Recuit r = new Recuit(this.generationTache(nbTache), nbProc);
+			System.out.println();
 			System.out.println("================Resultat====================");
-			System.out.println("Nombre D'iteration: "+t.getNbIteration());
+			System.out.println("Nombre D'iteration: "+r.getNbIteration());
 			System.out.println();
 			System.out.println("Variation de la valeur de fonction objection");
-			System.out.println(t.getlValeur());
+			System.out.println(r.getlValeur());
 			System.out.println();
-			System.out.println("Repartion sur les différents proccesseurs");
-			System.out.println(t.getMeilleurEtat());*/
+			System.out.println("Repartion sur les differents proccesseurs");
+			System.out.println(r.getEtat());
 	}
 
 	
@@ -199,10 +197,10 @@ public class Modele {
 		System.out.println("================Resultat====================");
 		System.out.println("Nombre D'iteration: "+t.getNbIteration());
 		System.out.println();
-		System.out.println("Variation de la valeur de fonction objection");
+		System.out.println("Variation de la valeur de fonction objectif");
 		System.out.println(t.getlValeur());
 		System.out.println();
-		System.out.println("Repartion sur les différents proccesseurs");
+		System.out.println("Repartion sur les differents proccesseurs");
 		System.out.println(t.getMeilleurEtat());
 	}
 

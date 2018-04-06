@@ -142,6 +142,11 @@ public class Etat {
 		return this.proccesseurs.get(index).getNbTache();
 	}
 	
+	
+	/*
+	 * !estUnEntier(s) || Integer.parseInt(s) != 2 || Integer.parseInt(s) != 1
+	 */
+	
 	/**
 	 * retourne un entier aleatoire entre min et max (max non compris)
 	 * @param min
@@ -155,7 +160,7 @@ public class Etat {
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
 		for(int i=0; i<this.proccesseurs.size(); i++){
-			sb.append("Proccesseur n°"+(i+1)+": ");
+			sb.append("Proccesseur nÂ°"+(i+1)+": ");
 			sb.append(this.proccesseurs.get(i).toString()+"\n\n");
 		}		
 		return sb.toString();
