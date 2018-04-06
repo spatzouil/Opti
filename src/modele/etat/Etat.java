@@ -1,4 +1,4 @@
-package Etat;
+package modele.etat;
 import java.util.ArrayList;
 
 
@@ -155,7 +155,7 @@ public class Etat {
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
 		for(int i=0; i<this.proccesseurs.size(); i++){
-			sb.append("Proccesseur nÂ°"+(i+1)+": ");
+			sb.append("Proccesseur n°"+(i+1)+": ");
 			sb.append(this.proccesseurs.get(i).toString()+"\n\n");
 		}		
 		return sb.toString();
