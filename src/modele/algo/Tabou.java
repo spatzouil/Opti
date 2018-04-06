@@ -3,7 +3,6 @@ package modele.algo;
 import java.util.ArrayList;
 
 import modele.etat.Etat;
-import modele.etat.Proccesseur;
 import modele.etat.Tache;
 
 public class Tabou {
