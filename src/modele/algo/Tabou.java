@@ -72,10 +72,10 @@ public class Tabou {
 	
 	public static void main(String[] args) {
 		ArrayList<Tache> taches = new ArrayList<>();
-		for(int i=0; i<100; i++){
+		for(int i=0; i<10; i++){
 			taches.add(new Tache(0,(int)(Math.random() * 1000)+1));
 		}
-		Tabou r = new Tabou(taches, 10, 100, 10);
+		Tabou r = new Tabou(taches, 5, 100, 10);
 		System.out.println(r);
 	}
 }
